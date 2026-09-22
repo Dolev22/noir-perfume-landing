@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR — בושם לגבר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;700;900&family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --off-black:#141414;
+    --white:#f7f7f5;
+    --grey:#8a8a8a;
+    --line:#2a2a2a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Assistant', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{
+    font-family:'Heebo', sans-serif;
+  }
+  img, video{filter:grayscale(1) contrast(1.05);}
+  a{color:inherit;text-decoration:none;}
+  .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;top:0;right:0;left:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 5%;
+    background:linear-gradient(to bottom, rgba(10,10,10,0.9), transparent);
+    backdrop-filter:blur(2px);
+  }
+  .brand{
+    font-size:26px;font-weight:900;letter-spacing:6px;
+  }
+  .brand span{color:var(--grey);}
+  nav ul{list-style:none;display:flex;gap:36px;}
+  nav a{
+    font-size:15px;font-weight:400;letter-spacing:1px;
+    position:relative;padding-bottom:4px;
+  }
+  nav a::after{
+    content:'';position:absolute;right:0;bottom:0;width:0;height:1px;
+    background:var(--white);transition:width .3s ease;
+  }
+  nav a:hover::after{width:100%;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;height:100vh;min-height:640px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:#000;
+  }
+  .hero-bg img{
+    width:100%;height:100%;object-fit:cover;
+    opacity:.55;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,10,10,.3) 0%, rgba(10,10,10,.55) 55%, var(--black) 100%);
+    z-index:1;
+  }
+  #dots{position:absolute;inset:0;z-index:1;opacity:.55;}
+  .hero-content{position:relative;z-index:2;text-align:center;padding-top:40px;}
+  .hero-content .eyebrow{
+    display:block;letter-spacing:6px;font-size:13px;color:var(--grey);margin-bottom:18px;
+  }
+  .hero-content h1{
+    font-size:clamp(46px,9vw,110px);font-weight:900;letter-spacing:4px;line-height:1;
+  }
+  .hero-content p{
+    max-width:520px;margin:22px auto 34px;color:#cfcfcf;font-size:17px;line-height:1.8;
+  }
+  .btn{
+    display:inline-block;border:1px solid var(--white);padding:16px 42px;
+    font-size:14px;letter-spacing:3px;transition:all .3s ease;
+  }
+  .btn:hover{background:var(--white);color:var(--black);}
+  .scroll-hint{
+    position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+    font-size:12px;letter-spacing:3px;color:var(--grey);z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .scroll-hint::after{
+    content:'';width:1px;height:40px;background:var(--grey);
+    animation:scrollLine 2s infinite;
+  }
+  @keyframes scrollLine{
+    0%{transform:scaleY(0);transform-origin:top;}
+    50%{transform:scaleY(1);transform-origin:top;}
+    51%{transform-origin:bottom;}
+    100%{transform:scaleY(0);transform-origin:bottom;}
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:130px 0;position:relative;}
+  .tag{
+    display:block;text-align:center;letter-spacing:5px;font-size:12px;
+    color:var(--grey);margin-bottom:14px;
+  }
+  .section-title{
+    text-align:center;font-size:clamp(32px,5vw,56px);font-weight:700;
+    margin-bottom:70px;letter-spacing:1px;
+  }
+  .divider{
+    width:60px;height:1px;background:var(--grey);margin:24px auto 0;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;
+  }
+  .about-grid > *{min-width:0;}
+  .about-img{position:relative;height:560px;overflow:hidden;width:100%;}
+  .about-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s ease;}
+  .about-img:hover img{transform:scale(1.05);}
+  .about-text h2{font-size:clamp(28px,4vw,44px);font-weight:700;margin-bottom:26px;line-height:1.3;}
+  .about-text p{color:#c4c4c4;line-height:1.9;font-size:16px;margin-bottom:18px;}
+  .stats{display:flex;gap:50px;margin-top:40px;}
+  .stats div strong{display:block;font-size:34px;font-weight:900;}
+  .stats div span{font-size:13px;color:var(--grey);letter-spacing:1px;}
+
+  /* ---------- PRODUCTS ---------- */
+  .products{background:var(--off-black);}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);}
+  .product{
+    background:var(--black);padding:60px 34px 44px;text-align:center;
+    transition:background .4s ease;
+  }
+  .product:hover{background:#1a1a1a;}
+  .bottle{
+    width:70px;height:150px;margin:0 auto 34px;position:relative;
+  }
+  .bottle .cap{
+    width:26px;height:22px;background:linear-gradient(180deg,#e8e8e8,#8f8f8f);
+    margin:0 auto;border-radius:2px 2px 0 0;
+  }
+  .bottle .neck{
+    width:14px;height:16px;background:#3a3a3a;margin:0 auto;
+  }
+  .bottle .body{
+    width:70px;height:112px;
+    background:linear-gradient(160deg,#f2f2f0 0%, #cfcfcf 40%, #9a9a9a 100%);
+    border:1px solid #3a3a3a;
+    position:relative;
+  }
+  .bottle .body::after{
+    content:'';position:absolute;inset:14px;border:1px solid rgba(0,0,0,.15);
+  }
+  .product h3{font-size:20px;font-weight:600;letter-spacing:1px;margin-bottom:10px;}
+  .product p{color:var(--grey);font-size:14px;margin-bottom:18px;line-height:1.7;}
+  .price{font-size:15px;letter-spacing:2px;}
+
+  /* ---------- VIDEO / SPRAY ---------- */
+  .spray{
+    position:relative;height:90vh;min-height:560px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .spray video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:grayscale(1) contrast(1.2) brightness(.85);
+  }
+  .spray::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at center, rgba(10,10,10,.15) 0%, rgba(10,10,10,.75) 100%);
+    z-index:1;
+  }
+  .spray-content{position:relative;z-index:2;text-align:center;}
+  .spray-content .tag{color:#d8d8d8;}
+  .spray-content h2{font-size:clamp(30px,6vw,64px);font-weight:900;letter-spacing:3px;}
+  .spray-content p{max-width:460px;margin:18px auto 0;color:#d0d0d0;line-height:1.8;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{
+    display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;height:640px;
+  }
+  .g-item{position:relative;overflow:hidden;}
+  .g-item:nth-child(1){grid-row:1/3;}
+  .g-item img{width:100%;height:100%;object-fit:cover;object-position:center 15%;transition:transform .6s ease, filter .4s ease;}
+  .g-item:hover img{transform:scale(1.06);filter:grayscale(.3) contrast(1.05);}
+  .g-item .label{
+    position:absolute;bottom:0;right:0;left:0;padding:22px 26px;
+    background:linear-gradient(0deg, rgba(0,0,0,.75), transparent);
+    font-size:14px;letter-spacing:2px;
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{background:var(--off-black);text-align:center;}
+  .quote{max-width:720px;margin:0 auto;}
+  .quote p{font-size:clamp(20px,3vw,30px);line-height:1.7;font-weight:300;font-family:'Heebo',sans-serif;}
+  .quote .who{margin-top:30px;color:var(--grey);letter-spacing:2px;font-size:13px;}
+
+  /* ---------- NEWSLETTER ---------- */
+  .newsletter{text-align:center;}
+  .newsletter h2{font-size:clamp(28px,4vw,46px);font-weight:700;margin-bottom:16px;}
+  .newsletter p{color:var(--grey);margin-bottom:36px;}
+  .n-form{
+    display:flex;max-width:440px;margin:0 auto;border:1px solid var(--line);
+  }
+  .n-form input{
+    flex:1;background:transparent;border:none;padding:16px 18px;color:var(--white);
+    font-family:'Assistant',sans-serif;font-size:15px;outline:none;text-align:right;
+  }
+  .n-form button{
+    background:var(--white);color:var(--black);border:none;padding:0 26px;
+    font-size:14px;letter-spacing:2px;cursor:pointer;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding:60px 0 30px;}
+  .footer-grid{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px;
+  }
+  .footer-grid h4{font-size:14px;letter-spacing:2px;margin-bottom:18px;color:var(--grey);}
+  .footer-grid ul{list-style:none;}
+  .footer-grid li{margin-bottom:10px;font-size:14px;color:#bdbdbd;}
+  .footer-bottom{
+    display:flex;justify-content:space-between;padding-top:26px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--grey);
+  }
+
+  @media(max-width:860px){
+    nav{display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .about-img{height:380px;}
+    .grid-3{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,220px);height:auto;}
+    .g-item:nth-child(1){grid-row:auto;grid-column:1/3;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .n-form{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">NOIR<span>°</span></div>
+  <nav>
+    <ul>
+      <li><a href="#about">אודות</a></li>
+      <li><a href="#products">קולקציה</a></li>
+      <li><a href="#video">החוויה</a></li>
+      <li><a href="#gallery">גלריה</a></li>
+      <li><a href="#newsletter">צור קשר</a></li>
+    </ul>
+  </nav>
+  <a href="#products" class="btn" style="padding:11px 26px;font-size:12px;">לקולקציה</a>
+</header>
+
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80" alt="דוגמן גבר בחליפה שחור לבן">
+  </div>
+  <canvas id="dots"></canvas>
+  <div class="hero-content">
+    <span class="eyebrow">MEN'S FRAGRANCE COLLECTION</span>
+    <h1>NOIR</h1>
+    <p>בושם שנולד מתוך חושך, עוצמה ואלגנטיות. קולקציית בשמים לגבר המודרני — נקייה, חדה ובלתי נשכחת.</p>
+    <a href="#products" class="btn">גלה את הקולקציה</a>
+  </div>
+  <div class="scroll-hint">גלול מטה</div>
+</section>
+
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-text">
+      <span class="tag" style="text-align:right;">מי אנחנו</span>
+      <h2>ריח שמדבר<br>בלי מילים</h2>
+      <p>NOIR נוסד מתוך אמונה אחת פשוטה — שבושם הוא לא רק ריח, הוא הצהרה. כל בקבוק מיוצר בכמות מוגבלת, בשילוב מרכיבים נבחרים מהטובים בעולם.</p>
+      <p>אנחנו יוצרים עבור הגבר שלא מתפשר: על איכות, על עיצוב ועל הרושם הראשוני שהוא משאיר.</p>
+      <div class="stats">
+        <div><strong>12+</strong><span>שנות ניסיון</span></div>
+        <div><strong>40K</strong><span>לקוחות מרוצים</span></div>
+        <div><strong>100%</strong><span>מרכיבים טבעיים</span></div>
+      </div>
+    </div>
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=80" alt="דוגמן גבר">
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="container">
+    <span class="tag">הקולקציה שלנו</span>
+    <h2 class="section-title">בשמים נבחרים</h2>
+  </div>
+  <div class="grid-3">
+    <div class="product">
+      <div class="bottle"><div class="cap"></div><div class="neck"></div><div class="body"></div></div>
+      <h3>NOIR INTENSE</h3>
+      <p>עץ אלון, פלפל שחור וענבר — עוצמתי וממכר.</p>
+      <div class="price">₪ 389</div>
+    </div>
+    <div class="product">
+      <div class="bottle"><div class="cap"></div><div class="neck"></div><div class="body"></div></div>
+      <h3>NOIR STEEL</h3>
+      <p>הדרים קרים, וטיבר ומושק — חד ומינרלי.</p>
+      <div class="price">₪ 429</div>
+    </div>
+    <div class="product">
+      <div class="bottle"><div class="cap"></div><div class="neck"></div><div class="body"></div></div>
+      <h3>NOIR MIDNIGHT</h3>
+      <p>עוד, וניל וקפה שחור — לילי ומסתורי.</p>
+      <div class="price">₪ 459</div>
+    </div>
+  </div>
+</section>
+
+<section class="spray" id="video">
+  <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1200&q=60">
+    <source src="https://videos.pexels.com/video-files/3763023/3763023-sd_640_360_25fps.mp4" type="video/mp4">
+  </video>
+  <div class="spray-content">
+    <span class="tag">החוויה</span>
+    <h2>הריח שמלווה<br>כל תנועה</h2>
+    <p>לחיצה אחת. שנייה אחת. וכל חדר נהיה שלך.</p>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="container">
+    <span class="tag">גלריה</span>
+    <h2 class="section-title">הפנים של NOIR</h2>
+    <div class="gallery-grid">
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80" alt="דוגמן">
+        <div class="label">קמפיין 2026</div>
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=80" alt="דוגמן">
+        <div class="label">NOIR STEEL</div>
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=700&q=80" alt="דוגמן">
+        <div class="label">NOIR INTENSE</div>
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=80" alt="דוגמן">
+        <div class="label">מאחורי הקלעים</div>
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80" alt="דוגמן">
+        <div class="label">NOIR MIDNIGHT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="container quote">
+    <p>"הבושם הראשון שאני מקבל עליו מחמאות בלי שאני אומר מה זה. NOIR זה לא רק ריח, זו נוכחות."</p>
+    <div class="who">— איתי כהן, לקוח מאז 2023</div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="container">
+    <h2>הצטרפו למועדון NOIR</h2>
+    <p>עדכונים על השקות חדשות, מבצעים בלעדיים ותוכן מהקמפיינים שלנו.</p>
+    <form class="n-form" onsubmit="return false;">
+      <input type="email" placeholder="כתובת אימייל" required>
+      <button type="submit">הרשמה</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="font-size:22px;margin-bottom:16px;">NOIR<span>°</span></div>
+        <p style="color:#9a9a9a;font-size:14px;line-height:1.8;">קולקציית בשמים לגבר המודרני. עוצמה, אלגנטיות ונוכחות בכל התזה.</p>
+      </div>
+      <div>
+        <h4>ניווט</h4>
+        <ul>
+          <li><a href="#about">אודות</a></li>
+          <li><a href="#products">קולקציה</a></li>
+          <li><a href="#gallery">גלריה</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>שירות לקוחות</h4>
+        <ul>
+          <li><a href="#">משלוחים והחזרות</a></li>
+          <li><a href="#">שאלות נפוצות</a></li>
+          <li><a href="#">צור קשר</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>עקבו אחרינו</h4>
+        <ul>
+          <li><a href="#">אינסטגרם</a></li>
+          <li><a href="#">פייסבוק</a></li>
+          <li><a href="#">טיקטוק</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NOIR. כל הזכויות שמורות.</span>
+      <span>עוצב באהבה לגבר המודרני</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // subtle animated dot field in the hero background
+  const canvas = document.getElementById('dots');
+  const ctx = canvas.getContext('2d');
+  let w, h, dots = [];
+
+  function resize(){
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+  function init(){
+    resize();
+    const count = Math.floor((w*h)/14000);
+    dots = Array.from({length: count}, () => ({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: Math.random()*1.6 + 0.4,
+      vx: (Math.random()-0.5)*0.25,
+      vy: (Math.random()-0.5)*0.25,
+      a: Math.random()*0.5 + 0.15
+    }));
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if(d.x < 0 || d.x > w) d.vx *= -1;
+      if(d.y < 0 || d.y > h) d.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${d.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('resize', resize);
+  init();
+  tick();
+</script>
+
+</body>
+</html>
